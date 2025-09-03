@@ -1,6 +1,5 @@
 import Stripe from 'stripe'
 import { getProductById } from '../../../../lib/db'
-import { NextResponse } from 'next/server'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
@@ -8,8 +7,7 @@ export async function POST(req) {
   const body = await req.json()
   const productId = body.productId
   const product = await getProductById(productId)
-
-  if (!product) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  if (!product) return new Response('Ürün bulunamadı', { status: 404 })
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
@@ -28,5 +26,5 @@ export async function POST(req) {
     cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/?cancel=1`,
   })
 
-  return NextResponse.json({ id: session.id })
+  return new Response(JSON.stringify({ id: session.id }), { status: 200 })
 }

@@ -6,8 +6,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 export async function POST(req) {
   try {
-    const form = await req.formData()
-    const productId = form.get('productId')
+    // JSON alıyoruz
+    const body = await req.json()
+    const productId = body.productId
     const product = await getProductById(productId)
 
     if (!product) {
@@ -33,7 +34,7 @@ export async function POST(req) {
 
     return new Response(JSON.stringify({ id: session.id }), { status: 200 })
   } catch (err) {
-    console.error('Stripe Checkout Error:', err) // ⬅️ Hata burada görülecek
+    console.error('Stripe Checkout Error:', err)
     return new Response(JSON.stringify({ error: err.message }), { status: 500 })
   }
 }

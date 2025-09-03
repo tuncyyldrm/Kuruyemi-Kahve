@@ -1,4 +1,3 @@
-// app/api/stripe/checkout/route.js
 import Stripe from 'stripe'
 import { getProductById } from '../../../../lib/db'
 
@@ -6,7 +5,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 export async function POST(req) {
   try {
-    // JSON alıyoruz
     const body = await req.json()
     const productId = body.productId
     const product = await getProductById(productId)

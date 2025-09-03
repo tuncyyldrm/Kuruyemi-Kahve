@@ -1,5 +1,4 @@
-import './globals.css'
-import '../styles/globals.css'
+import '../styles/globals.css'  // Sadece bu satır kalsın
 
 import Header from '../components/Header'
 import Footer from '../components/Footer'

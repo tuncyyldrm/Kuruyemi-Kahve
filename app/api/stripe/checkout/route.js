@@ -11,9 +11,7 @@ export async function POST(req) {
     const product = await getProductById(productId)
 
     if (!product) {
-      return new Response(JSON.stringify({ error: 'Ürün bulunamadı' }), {
-        status: 404,
-      })
+      return new Response(JSON.stringify({ error: 'Ürün bulunamadı' }), { status: 404 })
     }
 
     const session = await stripe.checkout.sessions.create({
@@ -35,7 +33,7 @@ export async function POST(req) {
 
     return new Response(JSON.stringify({ id: session.id }), { status: 200 })
   } catch (err) {
-    console.error('Stripe Checkout Error:', err)
+    console.error('Stripe Checkout Error:', err) // ⬅️ Hata burada görülecek
     return new Response(JSON.stringify({ error: err.message }), { status: 500 })
   }
 }
